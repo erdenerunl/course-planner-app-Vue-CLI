@@ -1,26 +1,66 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <header>Course Planner with Vue CLI</header>
+    <add-course-section 
+    :courseData="courseData" 
+    @addEvent="addEvent" 
+    :isEmpty="isEmpty" />
+
+    <div class="card card-light mt-20">
+      <h3>My Course List</h3>
+      <course-list :courseList="courseList"/>
+    </div>
+
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from "axios";
+import AddCourseSection from "./components/AddCourseSection.vue";
+import CourseList from "./components/CourseList.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    AddCourseSection,
+    CourseList,
+  },
+  data() {
+    return {
+      courseData : {
+        title : null,
+        checked: false
+      },
+      courseList: [],
+      isEmpty: false,
+    };
+  },
+  created() {
+    axios.get("http://localhost:3000/courses").then((r) => {
+      this.courseList = r.data;
+    });
+  },
+  methods: {
+    clearData() {
+      this.courseData = {
+        title: null,
+        checked: false,
+      };
+    },
+    addEvent(courseItem) {
+      if (courseItem.title.length > 0) {
+        this.courseList.push({ id: this.courseList.length + 1, ...courseItem });
+        this.clearData();
+      } else {
+        setTimeout(() => {
+          this.isEmpty = false;
+        }, 2000);
+        this.isEmpty = true;
+      }
+    },
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
