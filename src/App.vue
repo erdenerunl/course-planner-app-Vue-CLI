@@ -1,16 +1,12 @@
 <template>
   <div>
     <header>Course Planner with Vue CLI</header>
-    <add-course-section 
-    :courseData="courseData" 
-    @addEvent="addEvent" 
-    :isEmpty="isEmpty" />
+    <add-course-section :courseData="courseData" @addEvent="addEvent" :isEmpty="isEmpty" />
 
     <div class="card card-light mt-20">
       <h3>My Course List</h3>
-      <course-list :courseList="courseList"/>
+      <course-list :courseList="courseList" @bgChangeEvent="bgChangeEvent" />
     </div>
-
   </div>
 </template>
 
@@ -27,9 +23,9 @@ export default {
   },
   data() {
     return {
-      courseData : {
-        title : null,
-        checked: false
+      courseData: {
+        title: "",
+        checked: false,
       },
       courseList: [],
       isEmpty: false,
@@ -43,22 +39,34 @@ export default {
   methods: {
     clearData() {
       this.courseData = {
-        title: null,
+        title: "",
         checked: false,
       };
     },
-    addEvent(courseItem) {
-      if (courseItem.title.length > 0) {
-        this.courseList.push({ id: this.courseList.length + 1, ...courseItem });
-        this.clearData();
+    addEvent(responseItem) {
+      if (this.courseData.title.length > 0) {
+        axios
+          .post("http://localhost:3000/courses", responseItem)
+          .then((response) => {
+            this.courseList.push({ id: this.courseList.length + 1, ...response.data });
+            this.clearData();
+          })
+          .catch((e) => alert(e));
       } else {
         setTimeout(() => {
-          this.isEmpty = false;
+          return (this.isEmpty = false);
         }, 2000);
-        this.isEmpty = true;
+        return (this.isEmpty = true);
       }
     },
+    bgChangeEvent(checkedCourse){
+      const matched = this.courseList.findIndex(c => c.id === checkedCourse.id);
+
+      axios.patch(`http://localhost:3000/courses/${checkedCourse.id}` , this.courseList[matched])
+      
+    }
   },
+  
 };
 </script>
 

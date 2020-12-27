@@ -8,7 +8,7 @@
             <input type="text" v-model="courseData.title" placeholder="Add course..." />
             <span class="bg-danger alert" v-if="isEmpty">You must add something !!</span>
           </div>
-          <button class="btn-primary btn-sm" @click="addCourse">Add Course</button>
+          <button class="btn-primary btn-sm" @click="addCourse()">Add Course</button>
         </div>
       </div>
     </div>
@@ -28,9 +28,7 @@ export default {
   },
   methods : {
     addCourse(){
-      axios.post('http://localhost:3000/courses', this.courseData).then(r => {
-        this.$emit('add-event', this.courseData)
-      })
+      this.$emit('add-event', this.courseData)
     }
   }
   

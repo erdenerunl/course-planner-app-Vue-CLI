@@ -3,25 +3,28 @@
     {
       "id": 1,
       "title": "Vue.js",
-      "checked": false
+      "checked": true,
+      "true": ""
     },
     {
       "title": "React.js",
-      "checked": false,
-      "id": 2
+      "checked": true,
+      "id": 2,
+      "true": ""
     },
     {
       "title": "Angular.js",
-      "checked": false,
-      "id": 3
+      "checked": true,
+      "id": 3,
+      "true": ""
     },
     {
-      "title": "başak",
-      "checked": false,
+      "title": "asd",
+      "checked": true,
       "id": 4
     },
     {
-      "title": "C++",
+      "title": "erdeer",
       "checked": false,
       "id": 5
     }
