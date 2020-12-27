@@ -1,32 +1,19 @@
 {
   "courses": [
     {
-      "id": 1,
       "title": "Vue.js",
       "checked": true,
-      "true": ""
+      "id": 1
     },
     {
       "title": "React.js",
-      "checked": true,
-      "id": 2,
-      "true": ""
-    },
-    {
-      "title": "Angular.js",
-      "checked": true,
-      "id": 3,
-      "true": ""
-    },
-    {
-      "title": "asd",
-      "checked": true,
-      "id": 4
-    },
-    {
-      "title": "erdeer",
       "checked": false,
-      "id": 5
+      "id": 2
+    },
+    {
+      "title": "Angular",
+      "checked": false,
+      "id": 3
     }
   ]
 }

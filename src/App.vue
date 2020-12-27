@@ -4,8 +4,8 @@
     <add-course-section :courseData="courseData" @addEvent="addEvent" :isEmpty="isEmpty" />
 
     <div class="card card-light mt-20">
-      <h3>My Course List</h3>
-      <course-list :courseList="courseList" @bgChangeEvent="bgChangeEvent" />
+      
+      <course-list :courseList="courseList" @bgChangeEvent="bgChangeEvent" @deleteEvent="deleteEvent" />
     </div>
   </div>
 </template>
@@ -60,10 +60,16 @@ export default {
       }
     },
     bgChangeEvent(checkedCourse){
+      const uptadeID = checkedCourse.id
       const matched = this.courseList.findIndex(c => c.id === checkedCourse.id);
 
-      axios.patch(`http://localhost:3000/courses/${checkedCourse.id}` , this.courseList[matched])
-      
+      axios.patch(`http://localhost:3000/courses/${uptadeID}` , this.courseList[matched])
+    },
+    deleteEvent(courseID){
+      const matched = this.courseList.findIndex(c => c.id === courseID);
+      axios.delete(`http://localhost:3000/courses/${courseID}` , this.courseList[matched] )
+
+      this.courseList = this.courseList.filter(c => c.id !== courseID)
     }
   },
   
