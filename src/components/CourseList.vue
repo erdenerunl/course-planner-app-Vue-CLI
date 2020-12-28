@@ -1,8 +1,8 @@
 <template>
   <div class="card card-light mt-20">
     <h3>My Course List</h3>
-    <!-- <input type="text" class="w-100 m-5" v-model="searchCourse" placeholder="Kurs Ara..." 
-    v-if="courses.length > 0" /> -->
+    <input type="text" class="w-100 m-5" v-model="searchCourse" placeholder="Kurs Ara..." 
+    v-if="courseList.length > 0" />
     <div>
       <div class="notification-box">
         <small v-if="courseList.length > 0">
@@ -15,7 +15,7 @@
       </div>
     </div>
     <ul class="list mt-20">
-      <li class="course-item list-item" v-for="(course, index) in courseList" :key="course.id" :class="backgroundChange(course)">
+      <li class="course-item list-item" v-for="(course, index) in filteredCourseList" :key="course.id" :class="backgroundChange(course)">
           <button @click="deleteEvent(course.id)" class=" btn-warning btn-sm" >X</button>
         <span>{{ index + 1 }}. {{ course.title }} </span>
         <input type="checkbox" v-model="course.checked" />
@@ -27,6 +27,11 @@
 <script>
 export default {
   props: ["courseList"],
+  data(){
+    return {
+      searchCourse : '',
+    }
+  },
   methods: {
     backgroundChange(checkedCourse) {
       this.$emit("bg-change-event", checkedCourse);
@@ -46,6 +51,13 @@ export default {
     control2() {
       return this.courseList.filter((v) => v.checked).length;
     },
+    filteredCourseList(){
+      
+      return this.searchCourse === '' ? this.courseList : this.courseList.filter((course) => 
+        course.title.toLowerCase().includes(this.searchCourse.toLowerCase())
+      );
+      
+    }
   },
 };
 </script>
